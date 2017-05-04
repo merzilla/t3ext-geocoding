@@ -40,7 +40,7 @@ class GeoService
     /**
      * base URL to fetch the Coordinates (Latitude, Longitutde of a Address String.
      */
-    protected $geocodingUrl = 'http://maps.googleapis.com/maps/api/geocode/json?language=de&sensor=false';
+    protected $geocodingUrl = 'https://maps.googleapis.com/maps/api/geocode/json?language=de&sensor=false';
 
     /**
      * constructor method.
@@ -51,13 +51,14 @@ class GeoService
      */
     public function __construct($apikey = null)
     {
+        $geoCodingConfig = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['geocoding']);
+        $this->cacheTime = $geoCodingConfig['cacheTime'];
         // load from extension configuration
         if ($apikey === null) {
-            $geoCodingConfig = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['geocoding']);
             $apikey = $geoCodingConfig['googleApiKey'];
+            $this->geocodingUrl .= '&key=' . trim($apikey);
         }
         $this->apikey = $apikey;
-        //$this->geocodingUrl .= '&key=' . $apikey;
     }
 
     /**

@@ -1,2 +1,5 @@
 	#cat=basic;type=string;label=Google API Key
-googleApiKey = 
+googleApiKey =
+
+	#cat=basic;type=int+;label=Cache Time (default is 7776000 = 90 days)
+cacheTime = 7776000
