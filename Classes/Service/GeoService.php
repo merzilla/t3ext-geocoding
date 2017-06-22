@@ -91,6 +91,16 @@ class GeoService
                 $results = GeneralUtility::getUrl($geocodingUrl);
                 $results = json_decode($results, true);
 
+                // log if status of results is other than "OK"
+                if ($results['status'] != 'OK') {
+                    /** @var $logger \TYPO3\CMS\Core\Log\Logger */
+                    $logger = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Core\Log\LogManager')->getLogger(__CLASS__);
+                    $logger->error(
+                        'Geocoding error: ',
+                        $results
+                    );
+                }
+
                 $latitude = 0;
                 if (count($results['results']) > 0) {
                     $record = reset($results['results']);
